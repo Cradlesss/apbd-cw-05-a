@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "4XPnm0DDdfE=",
+  "dgSpecHash": "k8iWfCbMDoA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\s33104\\Downloads\\zadanie_refactoring_renewal\\zadanie_refactoring_renewal\\LegacyRenewalApp\\LegacyRenewalApp.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\ankek\\Desktop\\Dev\\Apbd-Projects\\Apbd-Projects\\Labo05\\apbd-cw-05-a\\LegacyRenewalApp\\LegacyRenewalApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ankek\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.25\\microsoft.netcore.app.ref.8.0.25.nupkg.sha512",
+    "C:\\Users\\ankek\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.25\\microsoft.windowsdesktop.app.ref.8.0.25.nupkg.sha512",
+    "C:\\Users\\ankek\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.25\\microsoft.aspnetcore.app.ref.8.0.25.nupkg.sha512"
+  ],
   "logs": []
 }

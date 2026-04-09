@@ -1,35 +1,37 @@
 ﻿namespace LegacyRenewalApp;
 
-public class ResolveDiscount(decimal discountAmount, string notes)
+public class RenewalDiscountCalculator
 {
-    public static ResolveDiscount Resolve(decimal baseAmount, 
-                                  Customer customer,
-                                  int seatCount,
-                                  bool isEducationEligible,
-                                  bool usesLoyaltyPts
-    )
+    public DiscountResult Calculate(
+        Customer customer,
+        SubscriptionPlan plan,
+        int seatCount,
+        decimal baseAmount,
+        bool useLoyaltyPoints)
     {
-        var segment = customer.Segment.ToLower().Trim();
         var discountAmount = 0m;
-        var notes = string.Empty;
-        
-        switch (segment)
+        var notes = "";
+
+        switch (customer.Segment)
         {
-            case "silver":
+            case "Silver":
                 discountAmount += baseAmount * 0.05m;
                 notes += "silver discount; ";
                 break;
-            case "gold":
+            case "Gold":
                 discountAmount += baseAmount * 0.10m;
                 notes += "gold discount; ";
                 break;
-            case "platinum":
+            case "Platinum":
                 discountAmount += baseAmount * 0.15m;
                 notes += "platinum discount; ";
                 break;
-            case "education" when isEducationEligible:
-                discountAmount += baseAmount * 0.20m;
-                notes += "education discount; ";
+            case "Education":
+                if (plan.IsEducationEligible)
+                {
+                    discountAmount += baseAmount * 0.20m;
+                    notes += "education discount; ";
+                }
                 break;
         }
 
@@ -44,7 +46,7 @@ public class ResolveDiscount(decimal discountAmount, string notes)
                 notes += "basic loyalty discount; ";
                 break;
         }
-
+        
         switch (seatCount)
         {
             case >= 50:
@@ -61,23 +63,26 @@ public class ResolveDiscount(decimal discountAmount, string notes)
                 break;
         }
 
-        if (usesLoyaltyPts && customer.LoyaltyPoints > 0)
+        if (useLoyaltyPoints && customer.LoyaltyPoints > 0)
         {
-            var ptsToUse =  customer.LoyaltyPoints > 200 ? 200 : customer.LoyaltyPoints;
+            var ptsToUse = customer.LoyaltyPoints > 200 ? 200 : customer.LoyaltyPoints;
             discountAmount += ptsToUse;
             notes += $"loyalty points used: {ptsToUse}; ";
         }
+        
+        var subtotalAfterDsc = baseAmount - discountAmount;
 
-        return new ResolveDiscount(discountAmount, notes);
-    }
+        if (subtotalAfterDsc < 300m)
+        {
+            subtotalAfterDsc = 300m;
+            notes += "minimum discounted subtotal applied; ";
+        }
 
-    public string GetNotes()
-    {
-        return notes;
-    }
-
-    public decimal GetDiscountAmount()
-    {
-        return discountAmount;
+        DiscountResult res = new DiscountResult();
+        res.DiscountAmount = discountAmount;
+        res.SubtotalAfterDiscount = subtotalAfterDsc;
+        res.Notes = notes;
+        
+        return res;
     }
 }
