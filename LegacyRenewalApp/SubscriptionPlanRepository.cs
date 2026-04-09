@@ -15,7 +15,7 @@ namespace LegacyRenewalApp
 
         public SubscriptionPlan GetByCode(string code)
         {
-            int randomWaitTime = new Random().Next(500);
+            var randomWaitTime = new Random().Next(500);
             Thread.Sleep(randomWaitTime);
 
             string normalizedCode = code.ToUpperInvariant();

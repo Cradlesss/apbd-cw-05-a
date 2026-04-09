@@ -12,27 +12,27 @@ namespace LegacyRenewalApp
             bool includePremiumSupport,
             bool useLoyaltyPoints)
         {
-            RenewalValidator validator = new RenewalValidator();
+            var validator = new RenewalValidator();
             validator.ValidateInput(customerId, planCode, seatCount, paymentMethod);
             
-            string normalizedPlanCode = planCode.Trim().ToUpperInvariant();
-            string normalizedPaymentMethod = paymentMethod.Trim().ToUpperInvariant();
+            var normalizedPlanCode = planCode.Trim().ToUpperInvariant();
+            var normalizedPaymentMethod = paymentMethod.Trim().ToUpperInvariant();
             
-            CustomerRepository customerRepository = new CustomerRepository();
-            SubscriptionPlanRepository planRepository = new SubscriptionPlanRepository();
+            var customerRepository = new CustomerRepository();
+            var planRepository = new SubscriptionPlanRepository();
             
-            Customer customer = customerRepository.GetById(customerId);
-            SubscriptionPlan plan = planRepository.GetByCode(normalizedPlanCode);
+            var customer = customerRepository.GetById(customerId);
+            var plan = planRepository.GetByCode(normalizedPlanCode);
             
             validator.ValidateCustomer(customer);
             
             var baseAmount = (plan.MonthlyPricePerSeat * seatCount * 12m) + plan.SetupFee;
 
-            RenewalDiscountCalculator discountCalculator = new RenewalDiscountCalculator();
-            DiscountResult discountResult = discountCalculator.Calculate(customer, plan, seatCount, baseAmount, useLoyaltyPoints);
+            var discountCalculator = new RenewalDiscountCalculator();
+            var discountResult = discountCalculator.Calculate(customer, plan, seatCount, baseAmount, useLoyaltyPoints);
             
-            RenewalFeeCalculator feeCalculator = new RenewalFeeCalculator();
-            FeeResult feeResult = feeCalculator.Calculate(
+            var feeCalculator = new RenewalFeeCalculator();
+            var feeResult = feeCalculator.Calculate(
                 customer,
                 normalizedPlanCode,
                 normalizedPaymentMethod,
@@ -51,8 +51,8 @@ namespace LegacyRenewalApp
                 notes += "minimum invoice amount applied; ";
             }
             
-            RenewalInvoiceFactory invoiceFactory = new RenewalInvoiceFactory();
-            RenewalInvoice invoice = invoiceFactory.Create(
+            var invoiceFactory = new RenewalInvoiceFactory();
+            var invoice = invoiceFactory.Create(
                 customer,
                 normalizedPlanCode,
                 normalizedPaymentMethod,
@@ -65,7 +65,7 @@ namespace LegacyRenewalApp
                 finalAmount,
                 notes);
             
-            BillingService billingService = new BillingService();
+            var billingService = new BillingService();
             billingService.SaveInvoice(invoice);
             billingService.SendInvoiceEmail(customer, invoice, normalizedPlanCode);
                 

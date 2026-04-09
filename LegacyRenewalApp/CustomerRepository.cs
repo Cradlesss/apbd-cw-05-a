@@ -17,7 +17,7 @@ namespace LegacyRenewalApp
 
         public Customer GetById(int customerId)
         {
-            int randomWaitTime = new Random().Next(500);
+            var randomWaitTime = new Random().Next(500);
             Thread.Sleep(randomWaitTime);
 
             if (Database.ContainsKey(customerId))

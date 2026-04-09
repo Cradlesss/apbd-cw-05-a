@@ -78,7 +78,7 @@ public class RenewalDiscountCalculator
             notes += "minimum discounted subtotal applied; ";
         }
 
-        DiscountResult res = new DiscountResult();
+        var res = new DiscountResult();
         res.DiscountAmount = discountAmount;
         res.SubtotalAfterDiscount = subtotalAfterDsc;
         res.Notes = notes;

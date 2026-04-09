@@ -17,7 +17,7 @@ public class RenewalInvoiceFactory
         decimal finalAmount,
         string notes)
     {
-        RenewalInvoice invoice = new RenewalInvoice();
+        var invoice = new RenewalInvoice();
         invoice.InvoiceNumber = "INV-" + DateTime.UtcNow.ToString("yyyyMMdd") + "-" + customer.Id + "-" + normalizedPlanCode;
         invoice.CustomerName = customer.FullName;
         invoice.PlanCode = normalizedPlanCode;
